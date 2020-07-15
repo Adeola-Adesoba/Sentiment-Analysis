@@ -1,8 +1,3 @@
-#LEARNING LAB 32: TEXT MINING WITH TWITTER & SHINY-----
-# TWITTER API ----
-
-# LIBRARIES ----
-
 # Twitter API
 library(rtweet)    
 
@@ -20,16 +15,14 @@ token <- create_token(
     app             = "Covid19twitteranalysis", 
     
     # Replace with your App API Key 
-    consumer_key    = "XtpN0ErP50mZe68TCe89ACzz1", 
+    consumer_key    = "some_key", 
     
     # Replace with your App Secret Key
-    consumer_secret = "r1HYEoB6wEg4qeiY8E0yIChLMe4klhkmeTwiUN6KCJZh2sU8TP" 
+    consumer_secret = "some_secret" 
 )
 
-# 2.0 SEARCH TWEETS ----
-# - Poll tweet history that has happened over n-tweets
-
-# 2.1 search_tweets()
+#search_tweets
+ search_tweets()
 tweets_covid19 = rtweet::search_tweets(
     q = "#COVID19",      # Search query
     n = 2000,             # Number of results
@@ -61,7 +54,6 @@ tweets_covid19 %>% slice(1:5) %>% select(hashtags) %>% unnest_wider(hashtags)
 tweets_covid19 %>% slice(1:5) %>% select(urls_expanded_url) %>% unnest(urls_expanded_url)
 
 
-# 3.0 STREAM TWEETS ----
 # - Real-time twitter action of what people are talking about
 
 rt <- stream_tweets(timeout = 5)
@@ -69,20 +61,16 @@ rt <- stream_tweets(timeout = 5)
 rt %>% glimpse()
 
 
-# 4.0 GEOCODING FILTERS ----
-
-# 4.1 Geocoding - GO from text to location
-
 # Geocoding Coordinates
 lookup_coords("london, uk") # Requires Google Maps API (Costs)
 lookup_coords("usa") # Pre-programmed
 
 
-# BONUS #1 - Free Geocoding Function
+# Geocoding Function
 geocode_for_free("london, uk") 
 geocode_for_free("usa") 
 
-# 4.2 Apply to streaming tweets
+# Apply to streaming tweets
 #rt <- stream_tweets(geocode_for_free("usa"), timeout = 5)
 #rt
 
@@ -93,7 +81,7 @@ rt
 
 rt %>% glimpse()
 
-# 4.3 Apply to search tweets london
+# Apply to search tweets london
 
 st <- search_tweets(
     q = "#COVID19", 
@@ -110,7 +98,7 @@ st %>%
     unnest_wider(geo_coords) %>%
     filter(!is.na(...1))
 
-# 4.3 Apply to search tweets usa
+#Apply to search tweets usa
 
 st_usa <- search_tweets(
     q = "#COVID19", 
@@ -127,13 +115,7 @@ st_usa %>%
     unnest_wider(geo_coords) %>%
     filter(!is.na(...1))
 
-# CHECK OUT THE OTHER rtweet FUNCTIONALITY:
-# https://rtweet.info/articles/intro.html
-
-# 5.0 MAP ----
-
-# 5.1 Intro to Leaflet
-?leaflet()
+# MAP
 
 quakes[1:20,] %>%
     leaflet() %>% 
@@ -141,7 +123,7 @@ quakes[1:20,] %>%
     addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag))
 quakes[1:20,]
 
-# 5.2 Mapping our Tweets
+# Mapping our Tweets
 
 st %>%
     select(screen_name, text, coords_coords) %>%
@@ -152,7 +134,7 @@ st %>%
     addTiles() %>%
     addMarkers(~lon, ~lat, popup = ~as.character(text), label = ~as.character(screen_name))
 
-# 5.3 New Idea - Use a Circle to indicate location of tweets
+# Use a Circle to indicate location of tweets
 
 data_prepared <- tibble(
     location = geocode_for_free("london, uk") %>% near_geocode(100)
