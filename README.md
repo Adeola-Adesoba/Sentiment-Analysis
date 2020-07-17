@@ -3,4 +3,6 @@ This project seeks to dive down into the sentiments of people with regards to CO
 I also created an interactive sentiment polarity plot using Rshiny which has been deployed on shinyapps.io
 It is available on this link: https://adeola-adesoba.shinyapps.io/sentiment-analysis/
 
+![Sentiment Analysis Screenshot](Sentiment-analysis.PNG)
+
 
